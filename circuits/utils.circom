@@ -2,7 +2,7 @@ pragma circom 2.1.9;
 
 include "circomlib/circuits/bitify.circom";
 // Convert 32 bytes into 4 64-bit numbers
-template BytesToWords() {
+template BytesToStrides() {
     signal input in[32];
     
     signal output out[4];
@@ -36,7 +36,7 @@ template BytesToWords() {
 }
 
 // 
-template WordsToBytes() {
+template StridesToBytes() {
     signal input in[4];
     
     signal output out[32];

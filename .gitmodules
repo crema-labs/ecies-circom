@@ -1,12 +1,4 @@
 [submodule "circuits/aes-circom"]
 	path = circuits/aes-circom
 	url = https://github.com/crema-labs/aes-circom.git
-[submodule "circuits/ecdsa"]
-	path = circuits/ecdsa
-	url = https://github.com/crema-labs/circom-ecdsa.git
-[submodule "circuits/hmac"]
-	path = circuits/hmac
-	url = http://github.com/crema-labs/hmac-circom
-[submodule "circuits/hkdf"]
-	path = circuits/hkdf
-	url = http://github.com/crema-labs/hkdf-circom
+

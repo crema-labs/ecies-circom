@@ -1,8 +1,9 @@
 pragma circom 2.1.9;
 
 include "./ecdsa/circuits/secp256k1.circom";
-include "./hkdf/circuits/hkdf.circom";
-include "./hmac/circuits/hmac.circom";
+include "./ecdsa/circuits/ecdsa.circom";
+include "./hkdf.circom";
+include "./hmac.circom";
 include "./aes-circom/circuits/ctr.circom";
 include "./utils.circom";
 
@@ -19,15 +20,18 @@ template Encrypt(npt,ns1,ns2,niv){
   signal output ct[npt];
   signal output hmac[32];
 
-  component BytesToWords[3];
-  BytesToWords[0].in <== r;
-  BytesToWords[1].in <== x;
-  BytesToWords[2].in <== y;
+  component BytesToStrides[3];
+  for (var i = 0; i < 3; i++) {
+    BytesToStrides[i] = BytesToStrides();
+  }
+  BytesToStrides[0].in <== r;
+  BytesToStrides[1].in <== x;
+  BytesToStrides[2].in <== y;
 
   component SK = GenSharedKey();
-  SK.r <== BytesToWords[0].out;
-  SK.px <== BytesToWords[1].out;
-  SK.py <== BytesToWords[2].out;
+  SK.r <== BytesToStrides[0].out;
+  SK.px <== BytesToStrides[1].out;
+  SK.py <== BytesToStrides[2].out;
 
   component KG = KeyGen(ns1);
   KG.info <== s1;
@@ -37,10 +41,10 @@ template Encrypt(npt,ns1,ns2,niv){
   component AESCTR = EncryptCTR(npt,4);
   AESCTR.plainText <== pt;
   AESCTR.iv <== iv;
-  AESCTR.key <== kg.out[0];
+  AESCTR.key <== KG.out[0];
 
   component HMAC = HmacSha256(npt+ns2,16);
-  HMAC.key <== kg.out[1];
+  HMAC.key <== KG.out[1];
   for (var i = 0; i < npt; i++) {
     HMAC.message[i] <== pt[i];
   }
@@ -49,7 +53,7 @@ template Encrypt(npt,ns1,ns2,niv){
   }
 
   component PRIV2PUB = ECDSAPrivToPub(64,4);
-  PRIV2PUB.privkey[0] <== BytesToWords[0].out;
+  PRIV2PUB.privkey[0] <== BytesToStrides[0].out;
 
   pubkey <== PRIV2PUB.pubkey;
   ct <== AESCTR.cipher;
@@ -69,14 +73,14 @@ template GenSharedKey(){
   scalarMul.point[1] <== py;
 
 
-  component WordsToBytes;
-  WordsToBytes.in <== scalarMul.out[0];
+  component StridesToBytes = StridesToBytes();
+  StridesToBytes.in <== scalarMul.out[0];
   
   signal output out[32];
 }
 
 template KeyGen(ni){
-  signal input info[i];
+  signal input info[ni];
   signal input key[32];
 
   signal output out[2][16];
