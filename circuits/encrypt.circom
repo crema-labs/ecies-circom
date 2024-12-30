@@ -55,7 +55,7 @@ template Encrypt(npt,ns1,ns2,niv){
   ct <= AESCTR.cipher;
   hmac <= HMAC.hmac;
 
-  // decryption needs r.x | r.y | iv | ct | hmac
+  // decryption needs pubkey.x | pubkey.y | iv | ct | hmac
 }
 
 template GenSharedKey(){
