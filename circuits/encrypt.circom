@@ -44,7 +44,7 @@ template Encrypt(npt,ns1,ns2,niv){
   for (var i = 0; i < npt; i++) {
     HMAC.message[i] <== pt[i];
   }
-  for (var i = 0; i < ns1; i++) {
+  for (var i = 0; i < ns2; i++) {
     HMAC.message[npt+i] <== s2[i];
   }
 
