@@ -1,3 +1,5 @@
+pragma circom 2.1.9;
+
 include "circomlib/circuits/bitify.circom";
 // Convert 32 bytes into 4 64-bit numbers
 template BytesToWords() {

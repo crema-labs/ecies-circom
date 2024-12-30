@@ -1,10 +1,10 @@
-pragma circom 2.1.8;
+pragma circom 2.1.9;
 
 include "./ecdsa/circuits/secp256k1.circom";
-include "./hkdf/circuits/hkdf.circom"
-include "./hmac/circuits/hmac.circom"
-include "./aes-circom/circuits/ctr.circom"
-include "./utils.circom"
+include "./hkdf/circuits/hkdf.circom";
+include "./hmac/circuits/hmac.circom";
+include "./aes-circom/circuits/ctr.circom";
+include "./utils.circom";
 
 template Encrypt(npt,ns1,ns2,niv){
   signal input r[32];
@@ -30,11 +30,11 @@ template Encrypt(npt,ns1,ns2,niv){
   SK.py <== BytesToWords[2].out;
 
   component KG = KeyGen(ns1);
-  KG.info <= s1;
-  KG.key <= SK.out;
+  KG.info <== s1;
+  KG.key <== SK.out;
 
 
-  component AESCTR = EncryptCTR(npt,4)
+  component AESCTR = EncryptCTR(npt,4);
   AESCTR.plainText <== pt;
   AESCTR.iv <== iv;
   AESCTR.key <== kg.out[0];
@@ -51,9 +51,9 @@ template Encrypt(npt,ns1,ns2,niv){
   component PRIV2PUB = ECDSAPrivToPub(64,4);
   PRIV2PUB.privkey[0] <== BytesToWords[0].out;
 
-  pubkey <= PRIV2PUB.pubkey;
-  ct <= AESCTR.cipher;
-  hmac <= HMAC.hmac;
+  pubkey <== PRIV2PUB.pubkey;
+  ct <== AESCTR.cipher;
+  hmac <== HMAC.hmac;
 
   // decryption needs pubkey.x | pubkey.y | iv | ct | hmac
 }
@@ -70,7 +70,7 @@ template GenSharedKey(){
 
 
   component WordsToBytes;
-  WordsToBytes.in <= scalarMul.out[0];
+  WordsToBytes.in <== scalarMul.out[0];
   
   signal output out[32];
 }
@@ -83,8 +83,8 @@ template KeyGen(ni){
 
   component HKDF = HKDFSha256(0,ni,32,2,16);
 
-  HKDF.info <= info;
-  HKDF.key <= key;
+  HKDF.info <== info;
+  HKDF.key <== key;
 
-  out <= HKDF.out;
+  out <== HKDF.out;
 }
