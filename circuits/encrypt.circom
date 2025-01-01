@@ -7,7 +7,7 @@ include "./hmac.circom";
 include "./aes-circom/circuits/ctr.circom";
 include "./utils.circom";
 
-template Encrypt(npt,ns1,ns2,niv){
+template Encrypt(npt,ns1,ns2){
   signal input r[32];
   signal input x[32];
   signal input y[32];
@@ -37,23 +37,25 @@ template Encrypt(npt,ns1,ns2,niv){
   KG.info <== s1;
   KG.key <== SK.out;
 
-
   component AESCTR = EncryptCTR(npt,4);
   AESCTR.plainText <== pt;
   AESCTR.iv <== iv;
   AESCTR.key <== KG.out[0];
 
-  component HMAC = HmacSha256(npt+ns2,16);
+  component HMAC = HmacSha256(16+npt+ns2,16);
   HMAC.key <== KG.out[1];
+  for (var i = 0; i < 16; i++) {
+    HMAC.message[i] <== iv[i];
+  }
   for (var i = 0; i < npt; i++) {
-    HMAC.message[i] <== pt[i];
+    HMAC.message[16+i] <== AESCTR.cipher[i];
   }
   for (var i = 0; i < ns2; i++) {
-    HMAC.message[npt+i] <== s2[i];
+    HMAC.message[16+npt+i] <== s2[i];
   }
 
   component PRIV2PUB = ECDSAPrivToPub(64,4);
-  PRIV2PUB.privkey[0] <== BytesToStrides[0].out;
+  PRIV2PUB.privkey <== BytesToStrides[0].out;
 
   pubkey <== PRIV2PUB.pubkey;
   ct <== AESCTR.cipher;
@@ -67,6 +69,8 @@ template GenSharedKey(){
   signal input px[4];
   signal input py[4];
 
+  signal output out[32];
+
   component scalarMul = Secp256k1ScalarMult(64,4);
   scalarMul.scalar <== r;
   scalarMul.point[0] <== px;
@@ -76,9 +80,9 @@ template GenSharedKey(){
   component StridesToBytes = StridesToBytes();
   StridesToBytes.in <== scalarMul.out[0];
   
-  signal output out[32];
-  out <== StridesToBytes.out;
-
+  for(var i=0;i<32;i++){
+    out[i] <== StridesToBytes.out[31-i];
+  }
 }
 
 template KeyGen(ni){

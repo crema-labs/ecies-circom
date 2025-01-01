@@ -58,7 +58,7 @@ template StridesToBytes() {
     }
     
     for (var i = 0; i < 32; i++) {
-        out[i] <== bits2Bytes[31-i].out;
+        out[i] <== bits2Bytes[i].out;
     }
 }
 
