@@ -1,7 +1,7 @@
 pragma circom 2.1.9;
 
-include "./ecdsa/circuits/secp256k1.circom";
-include "./ecdsa/circuits/ecdsa.circom";
+include "./ecdsaold/circuits/secp256k1.circom";
+include "./ecdsaold/circuits/ecdsa.circom";
 include "./hkdf.circom";
 include "./hmac.circom";
 include "./aes-circom/circuits/ctr.circom";
@@ -77,6 +77,8 @@ template GenSharedKey(){
   StridesToBytes.in <== scalarMul.out[0];
   
   signal output out[32];
+  out <== StridesToBytes.out;
+
 }
 
 template KeyGen(ni){

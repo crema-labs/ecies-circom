@@ -6,6 +6,7 @@
     "compile:test": "npx circomkit compile add && npx circomkit prove add default && npx circomkit verify add default"
   },
   "dependencies": {
+    "@noble/secp256k1": "^1.3.4",
     "circomkit": "^0.0.22",
     "circomlib": "^2.0.5"
   },

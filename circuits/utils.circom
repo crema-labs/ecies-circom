@@ -28,14 +28,9 @@ template BytesToStrides() {
         }
         out[i] <== bits2Num[i].out;
     }
-    
-    // input checks
-    for (var i = 0; i < 32; i++) {
-        in[i] * (in[i] - 255) === 0;
-    }
 }
 
-// 
+// Convert 4 64-bit numbers to 32 byte buffer
 template StridesToBytes() {
     signal input in[4];
     
@@ -63,12 +58,7 @@ template StridesToBytes() {
     }
     
     for (var i = 0; i < 32; i++) {
-        out[i] <== bits2Bytes[i].out;
-    }
-    
-    // output range checks
-    for (var i = 0; i < 32; i++) {
-        out[i] * (out[i] - 255) === 0;
+        out[i] <== bits2Bytes[31-i].out;
     }
 }
 
