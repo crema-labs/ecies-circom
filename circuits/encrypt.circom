@@ -1,7 +1,7 @@
 pragma circom 2.1.9;
 
-include "./ecdsaold/circuits/secp256k1.circom";
-include "./ecdsaold/circuits/ecdsa.circom";
+include "./ecdsa-0xparc/circuits/secp256k1.circom";
+include "./ecdsa-0xparc/circuits/ecdsa.circom";
 include "./hkdf.circom";
 include "./hmac.circom";
 include "./aes-circom/circuits/ctr.circom";
