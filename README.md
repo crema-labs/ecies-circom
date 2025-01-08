@@ -1,4 +1,4 @@
-# Hybrid Encryption Circuit
+# ECIES Encryption
 
 This repository contains a Circom implementation of a hybrid encryption scheme combining ECDSA, AES-CTR, and HMAC-SHA256 for secure message encryption and authentication.
 
