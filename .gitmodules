@@ -2,7 +2,6 @@
 	path = circuits/aes-circom
 	url = https://github.com/crema-labs/aes-circom.git
 
-
-[submodule "ecdsa-0xparc"]
+[submodule "circuits/ecdsa-0xparc"]
 	path = circuits/ecdsa-0xparc
 	url = https://github.com/crema-labs/circom-ecdsa.git
