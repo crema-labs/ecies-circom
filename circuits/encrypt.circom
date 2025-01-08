@@ -1,6 +1,6 @@
 pragma circom 2.1.9;
 
-include "./ecdsa/circuits/ec/curve.circom";
+include "./ecdsa-dl/circuits/ec/curve.circom";
 include "./hkdf.circom";
 include "./hmac.circom";
 include "./aes-circom/circuits/ctr.circom";
