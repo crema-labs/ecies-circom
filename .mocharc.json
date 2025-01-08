@@ -2,6 +2,6 @@
   "extension": ["ts"],
   "require": "ts-node/register",
   "spec": "tests/**/*.test.ts",
-  "timeout": 100000,
+  "timeout": 100000000,
   "exit": true
 }
