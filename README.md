@@ -82,9 +82,9 @@ Where:
 
 ## Test Results
 
-| Test Case | Constraints | Plaintext Size | Salt1 Size | Salt2 Size | Time (s) |
-|-----------|------------|----------------|------------|------------|----------|
-| Basic     | TBD        | 32            | 16         | 16         | TBD      |
+| Test Case | Constraints | Plaintext Size | Salt1 Size | Salt2 Size |
+|-----------|------------|----------------|------------|------------|
+| Basic     | 2177825        | 32            | 0         | 0         |
 
 
 ## Usage
