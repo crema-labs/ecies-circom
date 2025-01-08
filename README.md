@@ -55,8 +55,8 @@ Parameters:
 ## Dependencies
 
 - [circom-ecdsa](https://github.com/crema-labs/circom-ecdsa): ECDSA and secp256k1 operations
-- [hmac-circom](https://github.com/crema-labs/hmac.circom): HMAC-SHA256 implementation
-- [hkdf-circom](https://github.com/crema-labs/hkdf.circom): HKDF key derivation
+- [hmac-circom](https://github.com/crema-labs/hmac-circom): HMAC-SHA256 implementation
+- [hkdf-circom](https://github.com/crema-labs/hkdf-circom): HKDF key derivation
 - [aes-circom](https://github.com/crema-labs/aes-circom): AES-CTR mode encryption
 
 ## Security Properties
