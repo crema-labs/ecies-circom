@@ -1,7 +1,6 @@
 [submodule "circuits/aes-circom"]
 	path = circuits/aes-circom
 	url = https://github.com/crema-labs/aes-circom.git
-
-[submodule "circuits/ecdsaold"]
-	path = circuits/ecdsaold
-	url = https://github.com/crema-labs/circom-ecdsa.git
+[submodule "fixed-dl"]
+	path = circuits/ecdsa
+	url = https://github.com/crema-labs/circom-dl

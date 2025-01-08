@@ -1,7 +1,6 @@
 pragma circom 2.1.9;
 
-include "./ecdsaold/circuits/secp256k1.circom";
-include "./ecdsaold/circuits/ecdsa.circom";
+include "./ecdsa/circuits/ec/curve.circom";
 include "./hkdf.circom";
 include "./hmac.circom";
 include "./aes-circom/circuits/ctr.circom";
@@ -54,10 +53,11 @@ template Encrypt(npt,ns1,ns2){
     HMAC.message[16+npt+i] <== s2[i];
   }
 
-  component PRIV2PUB = ECDSAPrivToPub(64,4);
-  PRIV2PUB.privkey <== BytesToStrides[0].out;
+  component PRIV2PUB = EllipicCurveScalarGeneratorMultiplicationOptimised(64,4, [0,0,0,0], [7,0,0,0], [18446744069414583343, 18446744073709551615, 18446744073709551615, 18446744073709551615]);
+  PRIV2PUB.scalar <== BytesToStrides[0].out;
+  PRIV2PUB.dummy <== 0;
 
-  pubkey <== PRIV2PUB.pubkey;
+  pubkey <== PRIV2PUB.out;
   ct <== AESCTR.cipher;
   hmac <== HMAC.hmac;
 
@@ -71,10 +71,11 @@ template GenSharedKey(){
 
   signal output out[32];
 
-  component scalarMul = Secp256k1ScalarMult(64,4);
+  component scalarMul = EllipticCurvePipingerMult(64, 4, [0,0,0,0], [7,0,0,0], [18446744069414583343, 18446744073709551615, 18446744073709551615, 18446744073709551615], 4);
   scalarMul.scalar <== r;
-  scalarMul.point[0] <== px;
-  scalarMul.point[1] <== py;
+  scalarMul.in[0] <== px;
+  scalarMul.in[1] <== py;
+  scalarMul.dummy <== 0;
 
 
   component StridesToBytes = StridesToBytes();
